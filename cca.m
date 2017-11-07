@@ -19,4 +19,11 @@ Z = L * M * R;
 XU = X * U;
 YV_t = Y * V';
 
-correlation = max(corr(XU, YV_t));
+corr_cca = max(corr(XU, YV_t));
+
+x_pca = pca(X);
+z = X * x_pca(:,1);
+b = z\Y;
+y_hat = b * z;
+
+corr_pcr = corr(y_hat, Y);

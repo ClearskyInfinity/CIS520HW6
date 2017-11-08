@@ -20,19 +20,18 @@ p{15} = [17, 1];
 
 init_mu1 = [[7, 7];[8, 9];[12, 9]];
 init_mu2 = [[12,6];[8, 9];[12, 9]];
-mu = init_mu1;
 
 centroid_legends = {'bo', 'rs', 'g:^'};
 cluster_colors = {'b', 'r', 'g'};
 paint_data_points(p, 1, []);
-paint_centroids(mu, centroid_legends);
+paint_centroids(init_mu2, centroid_legends);
 
 N = length(p); % N is the number of sample points.
 
 for i = 2 : 5
     assignment = assign_clusters(p, mu);
     paint_data_points(p, i, assignment);
-    mu = set_centroid(p, assignment, mu);
+    mu = set_centroid(p, assignment, init_mu1);
     paint_centroids(mu, centroid_legends);
 end
 

@@ -20,7 +20,7 @@ p{15} = [17, 1];
 
 init_mu1 = [[7, 7];[8, 9];[12, 9]];
 init_mu2 = [[12,6];[8, 9];[12, 9]];
-mu = init_mu1;
+mu = init_mu2;
 
 centroid_legends = {'bo', 'rs', 'g:^'};
 cluster_colors = {'b', 'r', 'g'};

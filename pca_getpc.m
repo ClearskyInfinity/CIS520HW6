@@ -11,6 +11,6 @@ score_test = X_test * coeff_train;
 figure, plot(cumsum(latent)/sum(latent));
 
 % set you numpc here, you should acheive 90% reconstruction accuracy
-% numpc = ?;
+numpc = 39;
 
 end

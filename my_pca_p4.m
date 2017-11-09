@@ -19,12 +19,12 @@ x_bar = mean(Xtrain, 1);
 X_standardized = Xtrain - repmat(x_bar, [m, 1]);
 [coeff, score, ~] = pca(X_standardized);
 
-% Computation for part a)
+%% Computation for part a)
 % pc_components = score(:, 1 : 2);
 % zero_indices = find(Ytrain == 1);
 % one_indices = find(Ytrain == 2);
 % zero_pcs = pc_components(zero_indices, :);
-% one_pcs  = pc_components(one_indices,  :);
+% one_pcs = pc_components(one_indices,  :);
 % plot(zero_pcs(:, 1), zero_pcs(:, 2), 'o');
 % title('Plot of 0-1 digits from top 2 PCA dimensions');
 % xlabel('PC1');
@@ -34,7 +34,7 @@ X_standardized = Xtrain - repmat(x_bar, [m, 1]);
 % legend('0 digit', '1 digit');
 % hold off;
 
-% Compute reconstruction error. Part b)
+%% Compute reconstruction error. Part b)
 % as a matter of fact, this is exactly how we program.
 x_bar_rep = repmat(x_bar, [m 1]);
 error = zeros(n, 1);
@@ -47,13 +47,13 @@ for k = 1 : n
     diff1 = x_hat - x_bar_rep;
     distortion1 = 0;
     for i = 1 : length(diff1)
-        distortion1 = distortion1 + norm(diff1(i), 2)^2;
+        distortion1 = distortion1 + norm(diff1(i), 'fro')^2;
     end
     
     diff2 = Xtrain - x_bar_rep;
     distortion2 = 0;
     for i = 1 : length(diff2)
-        distortion2 = distortion2 + norm(diff2(i), 2)^2;
+        distortion2 = distortion2 + norm(diff2(i), 'fro')^2;
     end
     
     error(k) = distortion1 / distortion2;
@@ -63,14 +63,14 @@ plot(error);
 xlabel('Number of Principal Components');
 ylabel('Reconstruction Accuracy');
 
-% Part c)
+%% Part c)
 % num_clusters = 10;
 % 
 % K1 = 100;
 % K2 = 150;
 % K3 = 200;
 % 
-% [IDX, C] = kmeans(score(:, 1 : K3), num_clusters);
+% [IDX, C] = kmeans(score(:, 1:K1), num_clusters);
 % cluster_digits = zeros(num_clusters, 1);
 % 
 % for cluster = 1 : num_clusters
@@ -78,11 +78,13 @@ ylabel('Reconstruction Accuracy');
 %     cluster_labels = Ytrain(cluster_indices);
 %     cluster_digits(cluster) = mode(cluster_labels);
 % end
+% 
 % [m_test, n_test] = size(Xtest);
 % predictions = zeros(m_test, 1);
 % X_test_stand = Xtest - repmat(x_bar, [m_test, 1]);
-% PC_loadings = coeff(:, 1: K3);
+% PC_loadings = coeff(:, 1:K1);
 % reduced_Xtest = X_test_stand * PC_loadings;
+% 
 % for i = 1 : m_test
 %     dist = zeros(num_clusters, 1);
 %     for cluster = 1 : num_clusters

@@ -7,7 +7,7 @@ function dbn = rbm(X_train)
 rng(0);
 
 dbn.sizes = [200];
-opts.numepochs =   50;
+opts.numepochs =  50;
 opts.batchsize = 100;
 opts.momentum  =   0;
 opts.alpha     =   1;

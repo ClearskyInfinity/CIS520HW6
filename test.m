@@ -30,18 +30,19 @@ precision_ori_log = logistic(X_train, Y_train, X_test, Y_test);
 
 % your code to train logistic on PCA-ed and Auto-encoder data
 precision_pca_log = logistic(x_train_pca, Y_train, x_test_pca, Y_test);
-precision_ae_log = logistic(x_train_ae, Y_train, x_test_ae, Y_test);
+precision_ae_log  = logistic(x_train_ae, Y_train, x_test_ae, Y_test);
 
 %% kmeans
 
-% K = [26, 50];
-% precision_ori_km = zeros(length(K), 1);
-% for i = 1:length(K)
-%     k = K(i);
-%     precision_ori_km(i) = k_means(X_train, Y_train, X_test, Y_test, k);
-%     
-%     % your code to train logistic on PCA-ed and Auto-encoder data
-%     
-%     
-%     
-% end
+K = [26, 50];
+precision_ori_km = zeros(length(K), 1);
+precision_pca_km = zeros(length(K), 1);
+precision_ae_km  = zeros(length(K), 1);
+
+for i = 1:length(K)
+    k = K(i);
+    precision_ori_km(i) = k_means(X_train, Y_train, X_test, Y_test, k);
+    precision_pca_km(i) = k_means(X_train_pca, Y_train, X_test_pca, Y_test);
+    precision_ae_km(i)  = k_means(X_train_ae, Y_train, X_test_ae, Y_test);
+   
+end

@@ -4,9 +4,6 @@ function [score_train, score_test, numpc] = pca_getpc(X_train, X_test)
 % output: PCAed X for training and testing, number of PCs that you
 % selected.
 
-% disp(size(X_train));
-% disp(size(X_test));
-
 cov_train = cov(X_train);
 [coeff_train, latent] = pcacov(cov_train);
 score_train = X_train * coeff_train;
@@ -14,7 +11,6 @@ score_test  = X_test  * coeff_train;
 
 ratio = cumsum(latent) / sum(latent);
 figure, plot(ratio);
-
 indices = find(ratio >= 0.9);
 numpc = indices(1);
 

@@ -38,9 +38,10 @@ X_standardized = Xtrain - repmat(x_bar, [m, 1]);
 % as a matter of fact, this is exactly how we program.
 x_bar_rep = repmat(x_bar, [m 1]);
 error = zeros(n, 1);
+loadings = coeff';
 
 for k = 1 : n
-    loadings = coeff';
+%     k = 616;
     x_hat = x_bar_rep + score(:, 1:k) * loadings(1:k, :);
     
     diff1 = x_hat - x_bar_rep;
@@ -56,8 +57,11 @@ for k = 1 : n
     end
     
     error(k) = distortion1 / distortion2;
+%     disp(error(k));
 end
 plot(error);
+xlabel('Number of Principal Components');
+ylabel('Reconstruction Accuracy');
 
 % Part c)
 % num_clusters = 10;

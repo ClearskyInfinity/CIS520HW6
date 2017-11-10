@@ -1,4 +1,4 @@
-function [precision] = k_means(train_x,train_y,test_x,test_y, K)
+function [precision] = k_means(train_x, train_y, test_x, test_y, K)
 
 % separate into k clusters and assign labels to each cluster
 label = zeros(K,1);

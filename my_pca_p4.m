@@ -17,6 +17,7 @@ Ytest = tmp.Y_test;
 [m, n] = size(Xtrain);
 x_bar = mean(Xtrain, 1);
 X_standardized = Xtrain - repmat(x_bar, [m, 1]);
+X_test_stand = Xtest - repmat(x_bar, [size(Xtest, 1), 1]);
 [coeff, score, ~] = pca(X_standardized);
 
 %% Computation for part a)
@@ -36,51 +37,30 @@ X_standardized = Xtrain - repmat(x_bar, [m, 1]);
 
 %% Compute reconstruction error. Part b)
 % as a matter of fact, this is exactly how we program.
-x_bar_rep = repmat(x_bar, [m 1]);
-accuracy = zeros(n, 1);
-loadings = coeff';
-
-for k = 1 : n
-%     k = 147;
-    x_hat = x_bar_rep + score(:, 1:k) * loadings(1:k, :);
-    
-    diff1 = x_hat - x_bar_rep;
-    diff2 = Xtrain - x_bar_rep;
-    accuracy(k) = norm(diff1, 'fro')^2 / norm(diff2, 'fro')^2;
-    disp(accuracy(k));
-end
-plot(error);
-xlabel('Number of Principal Components');
-ylabel('Reconstruction Accuracy');
+% x_bar_rep = repmat(x_bar, [m 1]);
+% accuracy = zeros(n, 1);
+% loadings = coeff';
+% 
+% for k = 1 : n
+% %     k = 147;
+%     x_hat = x_bar_rep + score(:, 1:k) * loadings(1:k, :);
+%     
+%     diff1 = x_hat - x_bar_rep;
+%     diff2 = Xtrain - x_bar_rep;
+%     accuracy(k) = norm(diff1, 'fro')^2 / norm(diff2, 'fro')^2;
+%     disp(accuracy(k));
+% end
+% plot(error);
+% xlabel('Number of Principal Components');
+% ylabel('Reconstruction Accuracy');
 
 %% Part c)
-% num_clusters = 10;
-% K1 = 100;
-% K2 = 150;
-% K3 = 200;
-% [IDX, C] = kmeans(score(:, 1:K1), num_clusters);
-% cluster_digits = zeros(num_clusters, 1);
-% 
-% for cluster = 1 : num_clusters
-%     cluster_indices = find(IDX == cluster);
-%     cluster_labels = Ytrain(cluster_indices);
-%     cluster_digits(cluster) = mode(cluster_labels);
-% end
-% 
-% [m_test, n_test] = size(Xtest);
-% predictions = zeros(m_test, 1);
-% X_test_stand = Xtest - repmat(x_bar, [m_test, 1]);
-% PC_loadings = coeff(:, 1:K3);
-% reduced_Xtest = X_test_stand * PC_loadings;
-% 
-% for i = 1 : m_test
-%     dist = zeros(num_clusters, 1);
-%     for cluster = 1 : num_clusters
-%         dist(cluster) = norm(reduced_Xtest(i) - C(cluster), 2);
-%     end
-%     [~, index] = min(dist);
-%     predictions(i) = cluster_digits(index);
-% end
-% 
-% a = find(predictions ~= Ytest);
-% disp(size(a));
+num_clusters = 10;
+k = [100, 150, 200];
+precision = zeros(1, size(k, 2));
+
+for i = 1 : size(k, 2)
+    x_train_pca = X_standardized * coeff(:, 1:k(i));
+    x_test_pca = X_test_stand * coeff(:, 1:k(i));
+    precision(i) = k_means(x_train_pca, Ytrain, x_test_pca, Ytest, num_clusters);
+end
